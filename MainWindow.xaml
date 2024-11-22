@@ -1,0 +1,113 @@
+﻿<Window x:Class="ProjectManagementApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectManagementApp"
+        xmlns:pages="clr-namespace:ProjectManagementApp.Pages"
+        mc:Ignorable="d"
+        Title="Project Management" 
+        Height="700" 
+        Width="1000"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MinWidth="800"
+        MinHeight="600">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+
+    <Border BorderThickness="1" BorderBrush="#E6252D" Background="#333334" CornerRadius="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Custom Window Title Bar -->
+            <Border Background="#E6252D" Grid.Row="0" MouseLeftButtonDown="Border_MouseLeftButtonDown" CornerRadius="8,8,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Window Title -->
+                    <TextBlock Text="Project Management" 
+                             Foreground="#FFFFFF" 
+                             VerticalAlignment="Center" 
+                             Margin="15,0,0,0"
+                             FontSize="14"/>
+
+                    <!-- Window Control Buttons -->
+                    <StackPanel Grid.Column="1" 
+                              Orientation="Horizontal" 
+                              HorizontalAlignment="Right">
+                        <Button x:Name="MinimizeButton" 
+                                Click="MinimizeButton_Click"
+                                Style="{StaticResource WindowControlButton}">
+                            <Path Data="M0,0 L8,0" 
+                                  Stroke="#FFFFFF" 
+                                  StrokeThickness="1"/>
+                        </Button>
+                        <Button x:Name="MaximizeButton" 
+                                Click="MaximizeButton_Click"
+                                Style="{StaticResource WindowControlButton}">
+                            <Path Data="M0,0 L8,0 L8,8 L0,8 Z" 
+                                  Stroke="#FFFFFF" 
+                                  StrokeThickness="1" 
+                                  Fill="Transparent"/>
+                        </Button>
+                        <Button x:Name="CloseButton" 
+                                Click="CloseButton_Click"
+                                Style="{StaticResource WindowControlButton}">
+                            <Path Data="M0,0 L8,8 M0,8 L8,0" 
+                                  Stroke="#FFFFFF" 
+                                  StrokeThickness="1"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Navigation -->
+            <Grid Grid.Row="1">
+                <UniformGrid Rows="1">
+                    <RadioButton Content="Projekty" 
+                               Style="{StaticResource NavButton}"
+                               Checked="NavButton_Checked"
+                               IsChecked="True"
+                               Tag="Projects"/>
+                    <RadioButton Content="Ludzie" 
+                               Style="{StaticResource NavButton}"
+                               Checked="NavButton_Checked"
+                               Tag="Tasks"/>
+                    <RadioButton Content="Sprzęt" 
+                               Style="{StaticResource NavButton}"
+                               Checked="NavButton_Checked"
+                               Tag="Team"/>
+                    <RadioButton Content="Baza" 
+                               Style="{StaticResource NavButton}"
+                               Checked="NavButton_Checked"
+                               Tag="Contacts"/>
+                    <RadioButton Content="Kontakty" 
+                               Style="{StaticResource NavButton}"
+                               Checked="NavButton_Checked"
+                               Tag="Contacts"/>
+                    <RadioButton Content="Raport" 
+                               Style="{StaticResource NavButton}"
+                               Checked="NavButton_Checked"
+                               Tag="Dashboard"/>
+                </UniformGrid>
+            </Grid>
+
+            <!-- Page Content -->
+            <Frame Grid.Row="2" 
+                   x:Name="MainFrame" 
+                   NavigationUIVisibility="Hidden"/>
+        </Grid>
+    </Border>
+</Window>
