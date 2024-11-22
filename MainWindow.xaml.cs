@@ -13,6 +13,16 @@ namespace ProjectManagementApp
             MainFrame.Navigate(new ProjectsPage());
         }
 
+        public enum NavigationPages
+        {
+            Projekty,
+            Ludzie,
+            Sprzet,
+            Baza,
+            Kontakty,
+            Raport
+        }
+
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
@@ -44,28 +54,31 @@ namespace ProjectManagementApp
 
         private void NavButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (sender is RadioButton radioButton)
+            if (sender is RadioButton radioButton && radioButton.Tag != null)
             {
-                switch (radioButton.Tag.ToString())
+                if (Enum.TryParse<NavigationPages>(radioButton.Tag.ToString(), out NavigationPages page))
                 {
-                    case "Projekty":
-                        // MainFrame.Navigate(new ProjectsPage());
-                        break;
-                    case "Ludzie":
-                        // MainFrame.Navigate(new TasksPage());
-                        break;
-                    case "Sprzęt":
-                        // MainFrame.Navigate(new TeamPage());
-                        break;
-                    case "Baza":
-                        // MainFrame.Navigate(new TeamPage());
-                        break;
-                    case "Kontakty":
-                        // MainFrame.Navigate(new TeamPage());
-                        break;
-                    case "Raport":
-                        MainFrame.Navigate(new ReportsPage());
-                        break;
+                    switch (page)
+                    {
+                        case NavigationPages.Projekty:
+                            MainFrame.Navigate(new ProjectsPage());
+                            break;
+                        case NavigationPages.Ludzie:
+                            // MainFrame.Navigate(new TasksPage());
+                            break;
+                        case NavigationPages.Sprzet:
+                            // MainFrame.Navigate(new TeamPage());
+                            break;
+                        case NavigationPages.Baza:
+                            // MainFrame.Navigate(new TeamPage());
+                            break;
+                        case NavigationPages.Kontakty:
+                            MainFrame.Navigate(new ContactsPage());
+                            break;
+                        case NavigationPages.Raport:
+                            MainFrame.Navigate(new ReportsPage());
+                            break;
+                    }
                 }
             }
         }

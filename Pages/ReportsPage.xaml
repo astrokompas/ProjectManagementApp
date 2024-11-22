@@ -8,7 +8,6 @@
              mc:Ignorable="d">
 
     <Grid>
-        <!-- Center Container -->
         <Grid HorizontalAlignment="Center" 
               VerticalAlignment="Center" 
               Width="Auto"
@@ -20,10 +19,10 @@
 
             <!-- Logo -->
             <Image x:Name="LogoImage" 
-                  Source="/Images/OKSEL_LOGO_PL_White.png" 
-                  Height="150" 
-                  Margin="0,40,0,40"
-                  Stretch="Uniform"/>
+            Source="pack://application:,,,/ProjectManagementApp;component/Images/OKSEL_LOGO_PL_White.png" 
+            Height="150" 
+            Margin="0,40,0,40"
+            Stretch="Uniform"/>
 
             <!-- Buttons -->
             <StackPanel Grid.Row="1" 

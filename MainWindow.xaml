@@ -29,7 +29,7 @@
             </Grid.RowDefinitions>
 
             <!-- Custom Window Title Bar -->
-            <Border Background="#E6252D" Grid.Row="0" MouseLeftButtonDown="Border_MouseLeftButtonDown" CornerRadius="8,8,0,0">
+            <Border Background="#333334" Grid.Row="0" MouseLeftButtonDown="Border_MouseLeftButtonDown" CornerRadius="8,8,0,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -80,27 +80,27 @@
                                Style="{StaticResource NavButton}"
                                Checked="NavButton_Checked"
                                IsChecked="True"
-                               Tag="Projects"/>
+                               Tag="Projekty"/>
                     <RadioButton Content="Ludzie" 
                                Style="{StaticResource NavButton}"
                                Checked="NavButton_Checked"
-                               Tag="Tasks"/>
+                               Tag="Ludzie"/>
                     <RadioButton Content="Sprzęt" 
                                Style="{StaticResource NavButton}"
                                Checked="NavButton_Checked"
-                               Tag="Team"/>
+                               Tag="Sprzęt"/>
                     <RadioButton Content="Baza" 
                                Style="{StaticResource NavButton}"
                                Checked="NavButton_Checked"
-                               Tag="Contacts"/>
+                               Tag="Baza"/>
                     <RadioButton Content="Kontakty" 
                                Style="{StaticResource NavButton}"
                                Checked="NavButton_Checked"
-                               Tag="Contacts"/>
+                               Tag="Kontakty"/>
                     <RadioButton Content="Raport" 
                                Style="{StaticResource NavButton}"
                                Checked="NavButton_Checked"
-                               Tag="Dashboard"/>
+                               Tag="Raport"/>
                 </UniformGrid>
             </Grid>
 
