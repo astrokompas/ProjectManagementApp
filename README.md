@@ -29,7 +29,7 @@ A **WPF desktop application** designed for project management, built using the *
 
 ## 📂 Project Structure
 
-```plaintext
+```
 ProjectManagementApp/
 ├── Windows/            # Dialog window implementations
 │   ├── ContactDialog.xaml        # Add/Edit contact dialog
@@ -50,6 +50,7 @@ ProjectManagementApp/
 ├── Data/              # Database context
 │   └── ApplicationDbContext.cs  # EF Core context
 └── App.xaml           # Application configuration
+```
 
 ## 📋 Database Structure
 
