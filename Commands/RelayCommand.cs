@@ -34,6 +34,11 @@ namespace ProjectManagementApp.Commands
         {
             _execute((T)parameter);
         }
+
+        public void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
     }
 
     public class RelayCommand : ICommand

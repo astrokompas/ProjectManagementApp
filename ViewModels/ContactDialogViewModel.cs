@@ -14,17 +14,29 @@ namespace ProjectManagementApp.ViewModels
     {
         private string _email;
         private string _dialogTitle;
+        private string _errorMessage;
 
         public string Email
         {
             get => _email;
-            set => SetProperty(ref _email, value);
+            set
+            {
+                SetProperty(ref _email, value);
+                ValidateEmail();
+                (ConfirmCommand as RelayCommand<Window>)?.RaiseCanExecuteChanged();
+            }
         }
 
         public string DialogTitle
         {
             get => _dialogTitle;
             set => SetProperty(ref _dialogTitle, value);
+        }
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
         }
 
         public ICommand ConfirmCommand { get; }
@@ -35,13 +47,34 @@ namespace ProjectManagementApp.ViewModels
             DialogTitle = title;
             Email = email;
 
-            ConfirmCommand = new RelayCommand<Window>(ExecuteConfirm);
+            ConfirmCommand = new RelayCommand<Window>(ExecuteConfirm, CanConfirm);
             CancelCommand = new RelayCommand<Window>(ExecuteCancel);
+        }
+
+        private void ValidateEmail()
+        {
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                ErrorMessage = "Email jest wymagany";
+            }
+            else if (!EmailValidator.IsValidEmail(Email))
+            {
+                ErrorMessage = "Nieprawidłowy format adresu email";
+            }
+            else
+            {
+                ErrorMessage = null;
+            }
+        }
+
+        private bool CanConfirm(Window window)
+        {
+            return string.IsNullOrEmpty(ErrorMessage) && !string.IsNullOrWhiteSpace(Email);
         }
 
         private void ExecuteConfirm(Window window)
         {
-            if (window != null)
+            if (window != null && CanConfirm(window))
             {
                 window.DialogResult = true;
                 window.Close();

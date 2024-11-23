@@ -61,7 +61,8 @@ namespace ProjectManagementApp.ViewModels
                 }
                 catch (InvalidOperationException ex)
                 {
-                    MessageBox.Show(ex.Message, "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    var errorDialog = new ErrorDialog(ex.Message);
+                    errorDialog.ShowDialog();
                 }
             }
         }
