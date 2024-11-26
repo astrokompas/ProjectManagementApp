@@ -28,7 +28,7 @@ A **WPF desktop application** designed for project management, built using the *
 ### **Employee Management**
 - 👥 View and search employee list  
 - ➕ Add/Edit employees with real-time validation  
-- 🔄 Manage employee statuses (`Baza`, `Na Robocie`, `Urlop`)  
+- 🔄 Manage employee statuses 
 - 🏖️ Track vacation dates  
 - 🏗️ Assign employees to projects  
 - 🚫 Prevent duplicate employee names  
@@ -127,9 +127,9 @@ ProjectManagementApp/
 - 🛠️ Status-dependent validation  
 
 ### **Status Management**
-- 🏢 Base status (`Baza`)  
-- 🏗️ Work status (`Na Robocie`) with project assignment  
-- 🏖️ Vacation status (`Urlop`) with date tracking  
+- 🏢 Base status 
+- 🏗️ Work status with project assignment  
+- 🏖️ Vacation status with date tracking  
 
 ---
 
