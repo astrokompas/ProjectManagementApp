@@ -1,0 +1,147 @@
+﻿<Page x:Class="ProjectManagementApp.Pages.EmployeesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ProjectManagementApp.Pages"
+      mc:Ignorable="d"
+      Title="Pracownicy"
+      Background="#2D2D30">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header with Add Button -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Lista Pracowników"
+                      Foreground="White"
+                      FontSize="24"
+                      VerticalAlignment="Center"/>
+
+            <Button Grid.Column="1"
+                    Content="Dodaj Pracownika"
+                    Style="{StaticResource ModernButton}"
+                    Command="{Binding AddEmployeeCommand}"
+                    Width="150"
+                    Height="35"/>
+        </Grid>
+
+        <!-- Search Label -->
+        <TextBlock Grid.Row="1" 
+                   Text="Wyszukaj Pracownika"
+                   Style="{StaticResource ModernDialogLabel}"
+                   Margin="0,0,0,5"/>
+
+        <!-- Search Box -->
+        <Grid Grid.Row="2" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource ModernTextBox}"
+                     Width="400"
+                     HorizontalAlignment="Left"/>
+
+            <Button Grid.Column="1"
+                    Content="Wyczyść"
+                    Style="{StaticResource ModernButton}"
+                    Command="{Binding ClearSearchCommand}"
+                    Width="100"
+                    Height="35"
+                    Margin="10,0,0,0"
+                    Visibility="{Binding ClearButtonVisibility}"/>
+        </Grid>
+
+        <!-- Employees List -->
+        <ListView Grid.Row="3"
+                  Style="{StaticResource ModernListView}"
+                  ItemsSource="{Binding FilteredEmployees}"
+                  HorizontalContentAlignment="Stretch">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0,5"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border Background="#383838"
+                                        CornerRadius="6"
+                                        Padding="15">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Employee Info -->
+                                        <StackPanel Grid.Column="0"
+                                                  HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding FullName}" 
+                                                     Foreground="White"
+                                                     FontSize="16"/>
+                                            <StackPanel Orientation="Horizontal" 
+                                                      Margin="0,5,0,0">
+                                                <TextBlock Text="Status: " 
+                                                         Foreground="#B0B0B0"/>
+                                                <TextBlock Text="{Binding Status}" 
+                                                         Foreground="{Binding StatusColor}"/>
+                                                <TextBlock Text="{Binding StatusDetails}"
+                                                         Foreground="#B0B0B0"
+                                                         Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <!-- Action Buttons -->
+                                        <Button Grid.Column="1"
+                                                Content="Zmień Status"
+                                                Style="{StaticResource ModernButton}"
+                                                Command="{Binding DataContext.ChangeStatusCommand, 
+                                                         RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"
+                                                Margin="10,0"
+                                                Width="120"
+                                                Height="35"/>
+
+                                        <Button Grid.Column="2"
+                                                Content="Edytuj"
+                                                Style="{StaticResource ModernButton}"
+                                                Command="{Binding DataContext.EditEmployeeCommand, 
+                                                         RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"
+                                                Margin="0,0,10,0"
+                                                Width="100"
+                                                Height="35"/>
+
+                                        <Button Grid.Column="3"
+                                                Content="Usuń"
+                                                Style="{StaticResource ModernButton}"
+                                                Command="{Binding DataContext.DeleteEmployeeCommand, 
+                                                         RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"
+                                                Width="100"
+                                                Height="35"/>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Page>

@@ -22,6 +22,7 @@ namespace ProjectManagementApp.Windows
         public ConfirmationDialog(string title, string message)
         {
             InitializeComponent();
+            this.MouseLeftButtonDown += (s, e) => this.DragMove();
             Title = title;
             Message = message;
             DataContext = this;

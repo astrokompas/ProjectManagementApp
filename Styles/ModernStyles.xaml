@@ -307,4 +307,271 @@
         </Setter>
     </Style>
 
+    <!-- Modern ComboBox Style -->
+    <Style x:Key="ModernComboBox" TargetType="ComboBox">
+        <Setter Property="Background" Value="#383838"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="6">
+                            <Grid>
+                                <ToggleButton x:Name="ToggleButton"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        Background="{TemplateBinding Background}"
+                                        IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Focusable="False">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Border x:Name="Border"
+                                                    Grid.ColumnSpan="2"
+                                                    Background="{TemplateBinding Background}"
+                                                    CornerRadius="6"/>
+                                                <Path x:Name="Arrow"
+                                                  Grid.Column="1"
+                                                  Fill="White"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Data="M0,0 L8,0 L4,4 z"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="#404040"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+
+                                <ContentPresenter x:Name="ContentSite"
+                                            Margin="10,0,30,0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            Content="{TemplateBinding SelectionBoxItem}"
+                                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"/>
+
+                                <Popup x:Name="Popup"
+                                   AllowsTransparency="True"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                    <Grid x:Name="DropDown"
+                                      MinWidth="{TemplateBinding ActualWidth}"
+                                      SnapsToDevicePixels="True">
+                                        <Border x:Name="DropDownBorder"
+                                            Background="#383838"
+                                            CornerRadius="6"
+                                            Margin="0,5,0,0">
+                                            <ScrollViewer SnapsToDevicePixels="True"
+                                                    MaxHeight="200">
+                                                <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Grid>
+                                </Popup>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ComboBoxItem Style -->
+    <Style x:Key="ModernComboBoxItem" TargetType="ComboBoxItem">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="Border"
+                        Background="{TemplateBinding Background}"
+                        Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#4C4C4C"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#E6252D"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Modern Calendar Style -->
+    <Style x:Key="ModernCalendarStyle" TargetType="Calendar">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="#383838"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Style.Resources>
+            <!-- Calendar Day Button Style -->
+            <Style TargetType="CalendarDayButton">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CalendarDayButton">
+                            <Grid>
+                                <Border x:Name="ButtonBackground"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="1"
+                                    CornerRadius="4">
+                                    <ContentPresenter x:Name="ButtonContent"
+                                                TextElement.Foreground="White"
+                                                TextElement.FontWeight="Normal"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonBackground" Property="Background" Value="#4C4C4C"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="ButtonBackground" Property="Background" Value="#E6252D"/>
+                                </Trigger>
+                                <Trigger Property="IsBlackedOut" Value="True">
+                                    <Setter Property="Opacity" Value="0.3"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Calendar Button Style -->
+            <Style TargetType="CalendarButton">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="CalendarButton">
+                            <Grid>
+                                <Border x:Name="ButtonBackground"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="1"
+                                    CornerRadius="4">
+                                    <ContentPresenter x:Name="ButtonContent"
+                                                TextElement.Foreground="White"
+                                                TextElement.FontWeight="Normal"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonBackground" Property="Background" Value="#4C4C4C"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <!-- Modern DatePicker Style -->
+    <Style x:Key="ModernDatePicker" TargetType="DatePicker">
+        <Setter Property="Background" Value="#383838"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CalendarStyle" Value="{StaticResource ModernCalendarStyle}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DatePicker">
+                    <Border Background="{TemplateBinding Background}"
+                        CornerRadius="6">
+                        <Grid x:Name="PART_Root">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="PART_Button"
+                                Grid.Column="1"
+                                Width="35"
+                                Background="Transparent"
+                                BorderThickness="0">
+                                <Path Data="M8,8 L8,12 L12,12 L12,8 Z M2,8 L2,12 L6,12 L6,8 Z M8,2 L8,6 L12,6 L12,2 Z M2,2 L2,6 L6,6 L6,2 Z"
+                                  Fill="White"
+                                  Width="12"
+                                  Height="12"/>
+                            </Button>
+
+                            <DatePickerTextBox x:Name="PART_TextBox"
+                                         Grid.Column="0"
+                                         Background="Transparent"
+                                         Foreground="{TemplateBinding Foreground}"
+                                         Padding="10,0"
+                                         BorderThickness="0"
+                                         VerticalContentAlignment="Center"
+                                         HorizontalContentAlignment="Left"
+                                         Focusable="True"/>
+
+                            <Popup x:Name="PART_Popup"
+                               PlacementTarget="{Binding ElementName=PART_Root}"
+                               StaysOpen="False"
+                               AllowsTransparency="True"
+                               PopupAnimation="Fade">
+                                <Border Background="#383838"
+                                    BorderThickness="1"
+                                    BorderBrush="#4C4C4C"
+                                    CornerRadius="6"
+                                    Padding="5">
+                                    <Calendar x:Name="PART_Calendar"
+                                         Background="#383838"
+                                         Style="{StaticResource ModernCalendarStyle}"/>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#404040"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- DatePickerTextBox Style -->
+    <Style x:Key="ModernDatePickerTextBox" TargetType="DatePickerTextBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DatePickerTextBox">
+                    <Grid>
+                        <TextBox Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                             Background="Transparent"
+                             Foreground="{TemplateBinding Foreground}"
+                             Padding="{TemplateBinding Padding}"
+                             BorderThickness="0"
+                             HorizontalContentAlignment="Left"
+                             VerticalContentAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

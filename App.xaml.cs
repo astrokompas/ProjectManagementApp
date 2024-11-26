@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectManagementApp.Data;
 using ProjectManagementApp.Repositories;
+using ProjectManagementApp.Services;
 using ProjectManagementApp.ViewModels;
 using System.IO;
 using System.Windows;
@@ -16,7 +17,7 @@ namespace ProjectManagementApp
 
         public static App Current => (App)Application.Current;
 
-        public IServiceProvider ServiceProvider => _serviceProvider;
+        public ServiceProvider ServiceProvider => _serviceProvider;
 
         public App()
         {
@@ -38,7 +39,14 @@ namespace ProjectManagementApp
                 ServiceLifetime.Transient);
 
             services.AddSingleton<IContactRepository, ContactRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+
+            services.AddScoped<IProjectAssignmentService, ProjectAssignmentService>();
+
             services.AddTransient<ContactsViewModel>();
+            services.AddTransient<EmployeesViewModel>();
+
             services.AddTransient<MainWindow>();
         }
 

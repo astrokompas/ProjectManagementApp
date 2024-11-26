@@ -9,7 +9,6 @@ namespace ProjectManagementApp.Windows
             InitializeComponent();
             DataContext = message;
 
-            // Allow dragging the window
             this.MouseLeftButtonDown += (s, e) => this.DragMove();
         }
 
