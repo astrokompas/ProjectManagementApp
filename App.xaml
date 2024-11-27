@@ -9,6 +9,8 @@
                 <ResourceDictionary Source="/Styles/ModernStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <converters:BooleanToBorderBrushConverter x:Key="BooleanToBorderBrushConverter"/>
+            <converters:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

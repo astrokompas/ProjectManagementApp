@@ -10,6 +10,7 @@ namespace ProjectManagementApp.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public ICollection<Employee> AssignedEmployees { get; set; } = new List<Employee>();
         public ICollection<Equipment> AssignedEquipment { get; set; } = new List<Equipment>();
     }

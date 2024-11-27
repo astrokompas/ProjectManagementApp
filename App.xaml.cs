@@ -54,6 +54,7 @@ namespace ProjectManagementApp
             services.AddTransient<EmployeesViewModel>();
             services.AddTransient<EquipmentViewModel>();
             services.AddTransient<HQViewModel>();
+            services.AddTransient<ProjectsViewModel>();
 
             services.AddTransient<MainWindow>();
         }

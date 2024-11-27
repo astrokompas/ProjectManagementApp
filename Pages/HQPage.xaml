@@ -17,7 +17,7 @@
         <!-- Employees Section -->
         <DockPanel Grid.Column="0" Margin="0,0,10,0">
             <TextBlock DockPanel.Dock="Top" 
-                      Text="Pracownicy na bazie"
+                      Text="Pracownicy na Bazie"
                       Foreground="White"
                       FontSize="24"
                       Margin="0,0,0,20"/>
@@ -98,7 +98,7 @@
         <!-- Equipment Section -->
         <DockPanel Grid.Column="1" Margin="10,0,0,0">
             <TextBlock DockPanel.Dock="Top" 
-                      Text="Sprzęt na bazie i w serwisie"
+                      Text="Sprzęt na Bazie"
                       Foreground="White"
                       FontSize="24"
                       Margin="0,0,0,20"/>
