@@ -1,0 +1,179 @@
+﻿<Page x:Class="ProjectManagementApp.Pages.HQPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:viewModels="clr-namespace:ProjectManagementApp.ViewModels"
+      mc:Ignorable="d"
+      Title="Baza"
+      Background="#2D2D30">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Employees Section -->
+        <DockPanel Grid.Column="0" Margin="0,0,10,0">
+            <TextBlock DockPanel.Dock="Top" 
+                      Text="Pracownicy na bazie"
+                      Foreground="White"
+                      FontSize="24"
+                      Margin="0,0,0,20"/>
+
+            <!-- Employee Search Box -->
+            <Grid DockPanel.Dock="Top" Margin="0,0,0,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Wyszukaj Pracownika"
+                         Style="{StaticResource ModernDialogLabel}"
+                         Margin="0,0,0,5"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Text="{Binding EmployeeSearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource ModernTextBox}"/>
+
+                    <Button Grid.Column="1"
+                            Content="Wyczyść"
+                            Style="{StaticResource ModernButton}"
+                            Command="{Binding ClearEmployeeSearchCommand}"
+                            Width="100"
+                            Height="35"
+                            Margin="10,0,0,0"
+                            Visibility="{Binding EmployeeClearButtonVisibility}"/>
+                </Grid>
+            </Grid>
+
+            <!-- Employees List -->
+            <ListView ItemsSource="{Binding FilteredBaseEmployees}"
+                      Style="{StaticResource ModernListView}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0,5"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border Background="#383838"
+                                            CornerRadius="6"
+                                            Padding="15">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding FullName}" 
+                                                     Foreground="White"
+                                                     FontSize="16"
+                                                     VerticalAlignment="Center"/>
+
+                                            <Border Grid.Column="1" 
+                                                    Background="{Binding StatusColor}" 
+                                                    CornerRadius="6" 
+                                                    Padding="10,5" 
+                                                    Margin="10,0,0,0">
+                                                <TextBlock Text="{Binding Status}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </DockPanel>
+
+        <!-- Equipment Section -->
+        <DockPanel Grid.Column="1" Margin="10,0,0,0">
+            <TextBlock DockPanel.Dock="Top" 
+                      Text="Sprzęt na bazie i w serwisie"
+                      Foreground="White"
+                      FontSize="24"
+                      Margin="0,0,0,20"/>
+
+            <!-- Equipment Search Box -->
+            <Grid DockPanel.Dock="Top" Margin="0,0,0,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Wyszukaj Sprzęt"
+                         Style="{StaticResource ModernDialogLabel}"
+                         Margin="0,0,0,5"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Text="{Binding EquipmentSearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource ModernTextBox}"/>
+
+                    <Button Grid.Column="1"
+                            Content="Wyczyść"
+                            Style="{StaticResource ModernButton}"
+                            Command="{Binding ClearEquipmentSearchCommand}"
+                            Width="100"
+                            Height="35"
+                            Margin="10,0,0,0"
+                            Visibility="{Binding EquipmentClearButtonVisibility}"/>
+                </Grid>
+            </Grid>
+
+            <!-- Equipment List -->
+            <ListView ItemsSource="{Binding FilteredBaseEquipment}"
+                      Style="{StaticResource ModernListView}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0,5"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border Background="#383838"
+                                            CornerRadius="6"
+                                            Padding="15">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Name}" 
+                                                     Foreground="White"
+                                                     FontSize="16"
+                                                     VerticalAlignment="Center"/>
+
+                                            <Border Grid.Column="1" 
+                                                    Background="{Binding StatusColor}" 
+                                                    CornerRadius="6" 
+                                                    Padding="10,5" 
+                                                    Margin="10,0,0,0">
+                                                <TextBlock Text="{Binding Status}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </DockPanel>
+    </Grid>
+</Page>

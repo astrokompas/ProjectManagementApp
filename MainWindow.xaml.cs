@@ -70,7 +70,7 @@ namespace ProjectManagementApp
                             MainFrame.Navigate(new EquipmentPage());
                             break;
                         case NavigationPages.Baza:
-                            // MainFrame.Navigate(new TeamPage());
+                            MainFrame.Navigate(new HQPage());
                             break;
                         case NavigationPages.Kontakty:
                             MainFrame.Navigate(new ContactsPage());

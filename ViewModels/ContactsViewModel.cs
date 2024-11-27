@@ -44,12 +44,10 @@ namespace ProjectManagementApp.ViewModels
         private async void ExecuteAddContact()
         {
             var dialog = new ContactDialog();
-            var viewModel = new ContactDialogViewModel("Dodaj kontakt");
-
+            var viewModel = new ContactDialogViewModel("Dodaj kontakt", _contactRepository);
             dialog.DataContext = viewModel;
-            var result = dialog.ShowDialog();
 
-            if (result == true && !string.IsNullOrWhiteSpace(viewModel.Email))
+            if (dialog.ShowDialog() == true)
             {
                 try
                 {
@@ -59,7 +57,7 @@ namespace ProjectManagementApp.ViewModels
                     });
                     Contacts.Add(newContact);
                 }
-                catch (InvalidOperationException ex)
+                catch (Exception ex)
                 {
                     var errorDialog = new ErrorDialog(ex.Message);
                     errorDialog.ShowDialog();
@@ -70,16 +68,22 @@ namespace ProjectManagementApp.ViewModels
         private async void ExecuteEditContact(Contact contact)
         {
             var dialog = new ContactDialog();
-            var viewModel = new ContactDialogViewModel("Edytuj kontakt", contact.Email);
-
+            var viewModel = new ContactDialogViewModel("Edytuj kontakt", _contactRepository, contact.Email);
             dialog.DataContext = viewModel;
-            var result = dialog.ShowDialog();
 
-            if (result == true && !string.IsNullOrWhiteSpace(viewModel.Email))
+            if (dialog.ShowDialog() == true)
             {
-                contact.Email = viewModel.Email;
-                await _contactRepository.UpdateContactAsync(contact);
-                LoadContacts();
+                try
+                {
+                    contact.Email = viewModel.Email;
+                    await _contactRepository.UpdateContactAsync(contact);
+                    LoadContacts();
+                }
+                catch (Exception ex)
+                {
+                    var errorDialog = new ErrorDialog(ex.Message);
+                    errorDialog.ShowDialog();
+                }
             }
         }
 

@@ -5,13 +5,13 @@ using System.Windows;
 
 namespace ProjectManagementApp.Pages
 {
-    public partial class ContactsPage : Page
+    public partial class HQPage : Page
     {
-        public ContactsPage()
+        public HQPage()
         {
             InitializeComponent();
             var viewModel = ((App)Application.Current).ServiceProvider
-                .GetService<ContactsViewModel>();
+                .GetService<HQViewModel>();
             DataContext = viewModel;
         }
     }

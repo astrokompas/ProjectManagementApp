@@ -5,31 +5,23 @@ using ProjectManagementApp.Repositories;
 
 namespace ProjectManagementApp.Services
 {
-    public interface IProjectAssignmentService
-    {
-        Task<bool> AssignEmployeeToProject(int employeeId, int projectId);
-        Task<bool> RemoveEmployeeFromProject(int employeeId);
-        Task<bool> UpdateEmployeeStatus(int employeeId, string newStatus, int? projectId = null, DateTime? vacationStart = null, DateTime? vacationEnd = null);
-
-        Task<bool> AssignEquipmentToProject(int equipmentId, int projectId);
-        Task<bool> RemoveEquipmentFromProject(int equipmentId);
-        Task<bool> UpdateEquipmentStatus(int equipmentId, string newStatus, int? projectId = null);
-    }
-
     public class ProjectAssignmentService : IProjectAssignmentService
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IEquipmentRepository _equipmentRepository;
         private readonly IProjectRepository _projectRepository;
+        private readonly IStatusUpdateService _statusUpdateService;
 
         public ProjectAssignmentService(
             IEmployeeRepository employeeRepository,
             IEquipmentRepository equipmentRepository,
-            IProjectRepository projectRepository)
+            IProjectRepository projectRepository,
+            IStatusUpdateService statusUpdateService)
         {
             _employeeRepository = employeeRepository;
             _equipmentRepository = equipmentRepository;
             _projectRepository = projectRepository;
+            _statusUpdateService = statusUpdateService;
         }
 
         public async Task<bool> AssignEmployeeToProject(int employeeId, int projectId)
@@ -44,6 +36,7 @@ namespace ProjectManagementApp.Services
             employee.VacationStart = null;
             employee.VacationEnd = null;
             await _employeeRepository.UpdateEmployeeAsync(employee);
+            _statusUpdateService.NotifyStatusUpdate("Employee", employeeId, "Na Robocie");
             return true;
         }
 
@@ -56,6 +49,7 @@ namespace ProjectManagementApp.Services
             employee.Status = "Baza";
             employee.ProjectId = null;
             await _employeeRepository.UpdateEmployeeAsync(employee);
+            _statusUpdateService.NotifyStatusUpdate("Employee", employeeId, "Baza");
             return true;
         }
 
@@ -93,6 +87,7 @@ namespace ProjectManagementApp.Services
                     break;
             }
             await _employeeRepository.UpdateEmployeeAsync(employee);
+            _statusUpdateService.NotifyStatusUpdate("Employee", employeeId, newStatus);
             return true;
         }
 
@@ -106,6 +101,7 @@ namespace ProjectManagementApp.Services
             equipment.Status = "Na Robocie";
             equipment.ProjectId = projectId;
             await _equipmentRepository.UpdateEquipmentAsync(equipment);
+            _statusUpdateService.NotifyStatusUpdate("Equipment", equipmentId, "Na Robocie");
             return true;
         }
 
@@ -118,6 +114,7 @@ namespace ProjectManagementApp.Services
             equipment.Status = "Baza";
             equipment.ProjectId = null;
             await _equipmentRepository.UpdateEquipmentAsync(equipment);
+            _statusUpdateService.NotifyStatusUpdate("Equipment", equipmentId, "Baza");
             return true;
         }
 
@@ -145,6 +142,7 @@ namespace ProjectManagementApp.Services
                     break;
             }
             await _equipmentRepository.UpdateEquipmentAsync(equipment);
+            _statusUpdateService.NotifyStatusUpdate("Equipment", equipmentId, newStatus);
             return true;
         }
     }

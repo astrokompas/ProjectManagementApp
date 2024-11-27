@@ -1,92 +1,146 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Windows;
 using ProjectManagementApp.Commands;
 using ProjectManagementApp.Validators;
+using ProjectManagementApp.Repositories;
+using System.Threading;
+using System.Diagnostics;
 
 namespace ProjectManagementApp.ViewModels
 {
     public class ContactDialogViewModel : BaseViewModel
     {
+        private readonly IContactRepository _contactRepository;
+        private string _title;
         private string _email;
-        private string _dialogTitle;
-        private string _errorMessage;
+        private string _emailError;
+        private CancellationTokenSource _validationCancellation;
+        private readonly object _lockObject = new object();
+
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
 
         public string Email
         {
             get => _email;
             set
             {
-                SetProperty(ref _email, value);
-                ValidateEmail();
-                (ConfirmCommand as RelayCommand<Window>)?.RaiseCanExecuteChanged();
+                if (SetProperty(ref _email, value))
+                {
+                    ValidateEmail();
+                    StartDuplicateValidation();
+                    OnPropertyChanged(nameof(CanSave));
+                }
             }
         }
 
-        public string DialogTitle
+        public string EmailError
         {
-            get => _dialogTitle;
-            set => SetProperty(ref _dialogTitle, value);
+            get => _emailError;
+            set => SetProperty(ref _emailError, value);
         }
 
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            set => SetProperty(ref _errorMessage, value);
-        }
+        public bool CanSave => string.IsNullOrWhiteSpace(EmailError) &&
+                              !string.IsNullOrWhiteSpace(Email);
 
-        public ICommand ConfirmCommand { get; }
-        public ICommand CancelCommand { get; }
-
-        public ContactDialogViewModel(string title, string email = "")
+        public ContactDialogViewModel(string title, IContactRepository contactRepository, string email = "")
         {
-            DialogTitle = title;
+            _contactRepository = contactRepository;
+            Title = title;
             Email = email;
 
-            ConfirmCommand = new RelayCommand<Window>(ExecuteConfirm, CanConfirm);
-            CancelCommand = new RelayCommand<Window>(ExecuteCancel);
+            ValidateEmail();
         }
 
         private void ValidateEmail()
         {
             if (string.IsNullOrWhiteSpace(Email))
             {
-                ErrorMessage = "Email jest wymagany";
+                EmailError = "Email jest wymagany";
             }
             else if (!EmailValidator.IsValidEmail(Email))
             {
-                ErrorMessage = "Nieprawidłowy format adresu email";
+                EmailError = "Nieprawidłowy format adresu email";
             }
             else
             {
-                ErrorMessage = null;
+                EmailError = null;
             }
         }
 
-        private bool CanConfirm(Window window)
+        private async void StartDuplicateValidation()
         {
-            return string.IsNullOrEmpty(ErrorMessage) && !string.IsNullOrWhiteSpace(Email);
-        }
-
-        private void ExecuteConfirm(Window window)
-        {
-            if (window != null && CanConfirm(window))
+            try
             {
-                window.DialogResult = true;
-                window.Close();
+                if (_validationCancellation != null)
+                {
+                    _validationCancellation.Cancel();
+                    _validationCancellation.Dispose();
+                    _validationCancellation = null;
+                }
+
+                if (string.IsNullOrWhiteSpace(Email))
+                {
+                    return;
+                }
+
+                _validationCancellation = new CancellationTokenSource();
+                var token = _validationCancellation.Token;
+
+                await Task.Delay(500, token);
+
+                if (!token.IsCancellationRequested)
+                {
+                    await ValidateDuplicateAsync(token);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Validation error: {ex.Message}");
             }
         }
 
-        private void ExecuteCancel(Window window)
+        private async Task ValidateDuplicateAsync(CancellationToken cancellationToken)
         {
-            if (window != null)
+            if (!string.IsNullOrWhiteSpace(Email))
             {
-                window.DialogResult = false;
-                window.Close();
+                var contacts = await _contactRepository.GetAllContactsAsync();
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var isDuplicate = contacts.Any(c =>
+                    c.Email.Equals(Email, StringComparison.OrdinalIgnoreCase));
+
+                await Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    if (isDuplicate)
+                    {
+                        EmailError = "Kontakt o takim adresie email już istnieje";
+                    }
+                    else if (EmailError == "Kontakt o takim adresie email już istnieje")
+                    {
+                        EmailError = null;
+                    }
+                    OnPropertyChanged(nameof(CanSave));
+                });
+            }
+        }
+
+        public void Cleanup()
+        {
+            if (_validationCancellation != null)
+            {
+                _validationCancellation.Cancel();
+                _validationCancellation.Dispose();
+                _validationCancellation = null;
             }
         }
     }

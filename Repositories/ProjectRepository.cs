@@ -11,16 +11,17 @@ namespace ProjectManagementApp.Repositories
 {
     public class ProjectRepository : IProjectRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
 
-        public ProjectRepository(ApplicationDbContext context)
+        public ProjectRepository(IDbContextFactory<ApplicationDbContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory;
         }
 
         public async Task<List<Project>> GetAllProjectsAsync()
         {
-            return await _context.Projects
+            using var context = await _contextFactory.CreateDbContextAsync();
+            return await context.Projects
                 .Include(p => p.AssignedEmployees)
                 .Include(p => p.AssignedEquipment)
                 .ToListAsync();
@@ -28,7 +29,8 @@ namespace ProjectManagementApp.Repositories
 
         public async Task<Project> GetProjectByIdAsync(int id)
         {
-            return await _context.Projects
+            using var context = await _contextFactory.CreateDbContextAsync();
+            return await context.Projects
                 .Include(p => p.AssignedEmployees)
                 .Include(p => p.AssignedEquipment)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -36,24 +38,27 @@ namespace ProjectManagementApp.Repositories
 
         public async Task<Project> AddProjectAsync(Project project)
         {
-            _context.Projects.Add(project);
-            await _context.SaveChangesAsync();
+            using var context = await _contextFactory.CreateDbContextAsync();
+            context.Projects.Add(project);
+            await context.SaveChangesAsync();
             return project;
         }
 
         public async Task UpdateProjectAsync(Project project)
         {
-            _context.Entry(project).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            using var context = await _contextFactory.CreateDbContextAsync();
+            context.Entry(project).State = EntityState.Modified;
+            await context.SaveChangesAsync();
         }
 
         public async Task DeleteProjectAsync(int id)
         {
-            var project = await _context.Projects.FindAsync(id);
+            using var context = await _contextFactory.CreateDbContextAsync();
+            var project = await context.Projects.FindAsync(id);
             if (project != null)
             {
-                _context.Projects.Remove(project);
-                await _context.SaveChangesAsync();
+                context.Projects.Remove(project);
+                await context.SaveChangesAsync();
             }
         }
     }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectManagementApp.Data;
+using ProjectManagementApp.Pages;
 using ProjectManagementApp.Repositories;
 using ProjectManagementApp.Services;
 using ProjectManagementApp.ViewModels;
@@ -36,9 +37,13 @@ namespace ProjectManagementApp
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")),
-                ServiceLifetime.Transient);
+                ServiceLifetime.Scoped);
+
+            services.AddDbContextFactory<ApplicationDbContext>(options =>
+                options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSingleton<IContactRepository, ContactRepository>();
+            services.AddSingleton<IStatusUpdateService, StatusUpdateService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IEquipmentRepository, EquipmentRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
@@ -48,6 +53,7 @@ namespace ProjectManagementApp
             services.AddTransient<ContactsViewModel>();
             services.AddTransient<EmployeesViewModel>();
             services.AddTransient<EquipmentViewModel>();
+            services.AddTransient<HQViewModel>();
 
             services.AddTransient<MainWindow>();
         }
