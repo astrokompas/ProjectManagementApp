@@ -40,12 +40,14 @@ namespace ProjectManagementApp
 
             services.AddSingleton<IContactRepository, ContactRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IEquipmentRepository, EquipmentRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
 
             services.AddScoped<IProjectAssignmentService, ProjectAssignmentService>();
 
             services.AddTransient<ContactsViewModel>();
             services.AddTransient<EmployeesViewModel>();
+            services.AddTransient<EquipmentViewModel>();
 
             services.AddTransient<MainWindow>();
         }

@@ -89,7 +89,7 @@
                     <RadioButton Content="Sprzęt" 
                                Style="{StaticResource NavButton}"
                                Checked="NavButton_Checked"
-                               Tag="Sprzęt"/>
+                               Tag="Sprzet"/>
                     <RadioButton Content="Baza" 
                                Style="{StaticResource NavButton}"
                                Checked="NavButton_Checked"

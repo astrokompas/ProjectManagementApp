@@ -67,7 +67,7 @@ namespace ProjectManagementApp
                             MainFrame.Navigate(new EmployeesPage());
                             break;
                         case NavigationPages.Sprzet:
-                            // MainFrame.Navigate(new TeamPage());
+                            MainFrame.Navigate(new EquipmentPage());
                             break;
                         case NavigationPages.Baza:
                             // MainFrame.Navigate(new TeamPage());

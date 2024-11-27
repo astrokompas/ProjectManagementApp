@@ -1,6 +1,6 @@
 # **Project Management Application**
 
-A **WPF desktop application** designed for project management, built using the **MVVM architectural pattern** with **Entity Framework Core** for database operations. The application features both contact and employee management systems with comprehensive validation, status tracking, and database persistence.
+A **WPF desktop application** designed for project management, built using the **MVVM architectural pattern** with **Entity Framework Core** for database operations. The application features contact, employee, and equipment management systems with comprehensive validation, status tracking, and database persistence.
 
 ---
 
@@ -28,15 +28,21 @@ A **WPF desktop application** designed for project management, built using the *
 ### **Employee Management**
 - 👥 View and search employee list  
 - ➕ Add/Edit employees with real-time validation  
-- 🔄 Manage employee statuses 
-- 🏖️ Track vacation dates  
+- 🔄 Manage employee statuses
 - 🏗️ Assign employees to projects  
 - 🚫 Prevent duplicate employee names  
 - 🔍 Filter employees with search functionality  
 
+### **Equipment Management**
+- ⚙️ View and search equipment list  
+- ➕ Add/Edit equipment with real-time validation  
+- 🔄 Manage maintenance statuses
+- 🚫 Prevent duplicate equipment names  
+- 🔍 Filter equipment with search functionality  
+
 ---
 
-## 📂 Project Structure
+## **📂 Project Structure**
 
 ```bash
 ProjectManagementApp/
@@ -44,30 +50,35 @@ ProjectManagementApp/
 │   ├── ModernDialogWindow.cs     # Base dialog window
 │   ├── ContactDialog.xaml        # Add/Edit contact dialog
 │   ├── EmployeeDialog.xaml       # Add/Edit employee dialog
-│   ├── EmployeeStatusDialog.xaml # Status management
+│   ├── EquipmentDialog.xaml      # Add/Edit equipment dialog
+│   ├── EmployeeStatusDialog.xaml # Employee status management
+│   ├── EquipmentStatusDialog.xaml # Equipment status management
 │   ├── ConfirmationDialog.xaml   # Deletion confirmation
 │   └── ErrorDialog.xaml          # Error messages
 ├── Pages/             # Main application pages
 │   ├── ContactsPage.xaml         # Contact management
-│   └── EmployeesPage.xaml        # Employee management
+│   ├── EmployeesPage.xaml        # Employee management
+│   └── EquipmentPage.xaml        # Equipment management
 ├── ViewModels/        # MVVM view models
 │   ├── BaseViewModel.cs          # Base MVVM implementation
 │   ├── ContactsViewModel.cs      # Contact management logic
-│   └── EmployeesViewModel.cs     # Employee management logic
+│   ├── EmployeesViewModel.cs     # Employee management logic
+│   └── EquipmentViewModel.cs     # Equipment management logic
 ├── Models/            # Data models
 │   ├── Contact.cs               # Contact entity
 │   ├── Employee.cs              # Employee entity
-│   ├── Project.cs               # Project entity
-│   └── Equipment.cs             # Equipment entity
+│   ├── Equipment.cs             # Equipment entity
+│   └── Project.cs               # Project entity
 ├── Repositories/      # Data access layer
 │   ├── IContactRepository.cs    # Contact repository interface
 │   ├── ContactRepository.cs     # Contact repository
 │   ├── IEmployeeRepository.cs   # Employee repository interface
 │   ├── EmployeeRepository.cs    # Employee repository
+│   ├── IEquipmentRepository.cs  # Equipment repository interface
+│   ├── EquipmentRepository.cs   # Equipment repository
 │   ├── IProjectRepository.cs    # Project repository interface
 │   └── ProjectRepository.cs     # Project repository
 ├── Services/          # Business logic
-│   ├── IProjectAssignmentService.cs
 │   └── ProjectAssignmentService.cs
 ├── Styles/           # XAML styles
 │   └── ModernStyles.xaml       # Shared styles
@@ -80,38 +91,44 @@ ProjectManagementApp/
 
 ---
 
-## **📋 Database Structure**
+## 📋 Database Structure
 
 ### **Contacts Table**
-| Column Name  | Data Type      | Constraints                  |
-|--------------|----------------|------------------------------|
-| `Id`         | INT            | Primary Key, Identity        |
-| `Email`      | NVARCHAR(255)  | Unique                      |
+| Column Name | Data Type      | Constraints             |
+|-------------|----------------|-------------------------|
+| `Id`        | INT            | Primary Key, Identity   |
+| `Email`     | NVARCHAR(255)  | Unique                 |
 
 ### **Employees Table**
-| Column Name     | Data Type      | Constraints                  |
-|-----------------|----------------|------------------------------|
-| `Id`            | INT            | Primary Key, Identity        |
-| `FirstName`     | NVARCHAR(255)  | Required                     |
-| `LastName`      | NVARCHAR(255)  | Required                     |
-| `Status`        | NVARCHAR(50)   | Required                     |
-| `ProjectId`     | INT            | Foreign Key, Nullable        |
-| `VacationStart` | DATETIME       | Nullable                     |
-| `VacationEnd`   | DATETIME       | Nullable                     |
+| Column Name  | Data Type      | Constraints             |
+|--------------|----------------|-------------------------|
+| `Id`         | INT            | Primary Key, Identity   |
+| `FirstName`  | NVARCHAR(255)  | Required               |
+| `LastName`   | NVARCHAR(255)  | Required               |
+| `Status`     | NVARCHAR(50)   | Required               |
+| `ProjectId`  | INT            | Foreign Key, Nullable   |
+
+### **Equipment Table**
+| Column Name  | Data Type      | Constraints             |
+|--------------|----------------|-------------------------|
+| `Id`         | INT            | Primary Key, Identity   |
+| `Name`       | NVARCHAR(255)  | Required, Unique       |
+| `Status`     | NVARCHAR(50)   | Required               |
+| `ProjectId`  | INT            | Foreign Key, Nullable   |
 
 ### **Projects Table**
-| Column Name | Data Type      | Constraints                  |
-|-------------|----------------|------------------------------|
-| `Id`        | INT            | Primary Key, Identity        |
-| `Name`      | NVARCHAR(255)  | Required                     |
+| Column Name | Data Type      | Constraints             |
+|-------------|----------------|-------------------------|
+| `Id`        | INT            | Primary Key, Identity   |
+| `Name`      | NVARCHAR(255)  | Required               |
 
 ---
 
-## **🔑 Key Components**
+## 🔑 Key Components
 
 ### **UI Components**
-- 🖤 **Dark theme design** with #2D2D30  
-- ❤️ **Red accent color** with #E6252D  
+- 🖤 **Dark theme design** with `#2D2D30`  
+- ❤️ **Red accent color** with `#E6252D`  
 - 📋 Real-time validation feedback  
 - 🎛️ Custom-styled controls (ComboBox, DatePicker, etc.)  
 - 🔍 Search functionality  
@@ -119,7 +136,7 @@ ProjectManagementApp/
 - ✨ Modern dialog window style with draggable windows  
 
 ### **Validation System**
-- ✉️ Email format validation  
+- ✉️ Email format validation (for contacts)  
 - 🔒 Required field validation  
 - 🚫 Duplicate entry prevention  
 - ⚙️ Real-time validation with async checks  
@@ -127,13 +144,14 @@ ProjectManagementApp/
 - 🛠️ Status-dependent validation  
 
 ### **Status Management**
-- 🏢 Base status 
-- 🏗️ Work status with project assignment  
-- 🏖️ Vacation status with date tracking  
+- 🏢 Employee base status
+- 🏗️ Employee work status with project assignment  
+- 🏖️ Employee vacation status
+- ⚙️ Equipment maintenance statuses
 
 ---
 
-## **📦 Dependencies**
+## 📦 Dependencies
 
 - `Microsoft.EntityFrameworkCore.SqlServer`  
 - `Microsoft.EntityFrameworkCore.Tools`  
@@ -143,7 +161,7 @@ ProjectManagementApp/
 
 ---
 
-## **🧩 Design Patterns Used**
+## 🧩 Design Patterns Used
 
 - **MVVM (Model-View-ViewModel)**  
 - **Repository Pattern**  
@@ -154,10 +172,10 @@ ProjectManagementApp/
 
 ---
 
-## **🚀 Future Development**
+## 🚀 Future Development
 
-Planned features include:  
-- 🛠️ Equipment management system  
+Planned features include:
+- 🛠️ Equipment management enhancements (e.g., maintenance scheduling)  
 - 🏢 HQ resource overview  
 - 📅 Project scheduling and management  
 - 📊 Report generation and export  
@@ -166,6 +184,6 @@ Planned features include:
 
 ---
 
-## **📌 Project Status**
+## 📌 Project Status
 
-Contact and Employee management systems are fully implemented. Currently developing the **equipment management functionality**, with plans for **project management** and **reporting** features.
+Contact, Employee, and Equipment management systems are fully implemented. Development is ongoing for project and reporting features.
